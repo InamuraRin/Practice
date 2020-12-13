@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>  
+
+    <div id ="app">
+        <p> {{message}}</p>
+        <button v-on:click="reverseMessage">メッセージ反転</button>
+        
+        <div v-html="html"></div>
+
+        <!-- v-bind -->
+        <a v-bind:href="url">Google</a>
+        <a :[attribute]="url">Google</a>
+        <a v-bind="{href:url, id :number}">Google</a>
+
+        <!-- v-on -->
+        <p>現在{{count}}回クリックされています</p>
+        <button v-on:[event]='countUp(2)'>countUP</button>
+        <p v-on:mousemove="changeMouse(3, $event)">マウスを載せてください
+            <span　v-on:mousemove.stop="noEvent(e)">反応しないでください</span>
+        </p>
+        <p>x:{{x}},y:{{y}}</p>
+        <input type="text" v-on:keyup.enter="myAlert">
+        <br>
+
+        <!-- v-model -->
+        <input type="text" v-model="unko">
+        <h1>{{unko}}</h1>
+
+        <!-- compute -->
+        <p>現在{{counter}}回クリックされています</p>
+        <button v-on:[event]='counter += 1'>+1</button>
+        <p>{{lessThanThree}}</p>
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                message: 'HelloWorld!',
+                html : '<hi>h1です</h1>',
+                url : 'https://google.com',
+                attribute: 'href',
+                number : 31,
+                count : 0,
+                x:0,
+                y:0,
+                event : 'click',
+                unko : 'こんにちは',
+                counter : 0,
+            },
+            methods:{
+                reverseMessage: function(){
+                    this.message = this.message.split('').reverse().join('');
+                },
+                countUp: function(times){
+                    this.count += 1 * times;
+                },
+                changeMouse :function(devide, e){
+                    this.x = e.clientX / devide;
+                    this.y = e.clientY / devide;
+                },
+                noEvent: function(e) {
+                    e.stopPropagation();
+                },
+                myAlert(){
+                    alert("alert!");
+                }
+            },
+            computed :{
+                lessThanThree: function() {
+                    return this.counter >3 ? '3より上' : '3以下'
+                }
+            }
+            
+
+        });
+     </script>
+</body>
+</html>
